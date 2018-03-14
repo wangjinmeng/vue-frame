@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
+const pages=require('../config/pages')
 const env = require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
@@ -60,36 +60,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: config.build.index,
-      template: './src/module/index/index.html',
-      inject: true,
-      // minify: {
-      //   removeComments: true,
-      //   collapseWhitespace: true,
-      //   removeAttributeQuotes: true
-      //   // more options:
-      //   // https://github.com/kangax/html-minifier#options-quick-reference
-      // },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency',
-      chunks:['vendor','manifest','index']
-    }),
-    new HtmlWebpackPlugin({
-      filename: config.build.details,
-      template: './src/module/details/index.html',
-      inject: true,
-      // minify: {
-      //   removeComments: true,
-      //   collapseWhitespace: true,
-      //   removeAttributeQuotes: true
-      //   // more options:
-      //   // https://github.com/kangax/html-minifier#options-quick-reference
-      // },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency',
-      chunks:['vendor','manifest','details']
-    }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
@@ -134,7 +104,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
-
+webpackConfig.plugins = webpackConfig.plugins.concat(pages.getProOutput());
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
 

@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img src="../../common/img/logo.png">
-    <img src="../../common/img/timg.jpg">
+    我是详情页面
     <hello></hello>
   </div>
 </template>

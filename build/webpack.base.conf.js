@@ -3,8 +3,9 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const pages = require('../config/pages');
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -17,14 +18,12 @@ const createLintingRule = () => ({
     formatter: require('eslint-friendly-formatter'),
     emitWarning: !config.dev.showEslintErrorsInOverlay
   }
-})
+});
+let entries = pages.getEntries();
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
-  entry: {
-    index: './src/module/index/main.js',
-    details: './src/module/details/main.js',
-  },
+  entry: entries,
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -76,7 +75,11 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
-      }
+      },
+      {
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
+      },
     ]
   },
   node: {
@@ -91,4 +94,4 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty'
   }
-}
+};
